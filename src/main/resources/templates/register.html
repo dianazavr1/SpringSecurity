@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Spring Security Registration</title>
+    <style>
+        /* Общие стили страницы */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Контейнер для формы */
+        .form-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            text-align: center;
+        }
+
+        /* Заголовок */
+        h2 {
+            margin-bottom: 20px;
+            color: #333333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Поля ввода */
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border: 1px solid #007bff;
+            outline: none;
+        }
+
+        /* Иконки для полей */
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        /* Кнопка отправки */
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        /* Ссылка на логин */
+        a {
+            display: block;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Сообщение об ошибке */
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Анимация появления формы */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-container {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+    </style>
+    <!-- Подключение иконок Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Register New User</h2>
+
+    <!-- Форма регистрации -->
+    <form th:action="@{/register}" method="post">
+        <!-- Поле для имени пользователя -->
+        <div class="input-group">
+            <input type="text" name="username" placeholder="Username" required/>
+            <i class="fas fa-user"></i>
+        </div>
+
+        <!-- Поле для пароля -->
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password" required/>
+            <i class="fas fa-lock"></i>
+        </div>
+
+        <!-- Защита от CSRF атак -->
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <!-- Кнопка отправки формы -->
+        <button type="submit" class="btn-submit">Register</button>
+
+        <!-- Ссылка на страницу входа -->
+        <a href="/login">Back to Login</a>
+
+        <!-- Сообщение об ошибке -->
+        <div th:if="${param.error}" class="error-message">
+            Invalid. Please check your input.
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

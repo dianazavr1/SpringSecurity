@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список сообщений</title>
+    <style>
+        /* Общие стили для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        /* Кнопка выхода */
+        form.logout {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .logout input {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout input:hover {
+            background-color: #c82333;
+        }
+
+        /* Формы */
+        .form-section {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-section input,
+        .form-section button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-section button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-section button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Карточки сообщений */
+        .messages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .message {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            flex: 0 0 calc(48% - 10px);
+        }
+
+        .message b {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .message p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .message .tag {
+            font-size: 13px;
+            color: #777;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Заголовок -->
+    <h1>Список сообщений</h1>
+
+    <!-- Кнопка выхода -->
+    <form th:action="@{/logout}" method="post" class="logout">
+        <input type="submit" value="Выйти"/>
+    </form>
+
+    <!-- Форма для добавления сообщения -->
+    <div class="form-section">
+        <form method="post" th:action="@{/main}" style="flex: 1;">
+            <input type="text" name="text" placeholder="Введите сообщение" required />
+            <input type="text" name="tag" placeholder="Тэг" />
+            <button type="submit">Добавить</button>
+        </form>
+
+        <!-- Форма для фильтрации сообщений -->
+        <form method="get" th:action="@{/filter}" style="flex: 0.4;">
+            <input type="text" name="filter" placeholder="Фильтр" />
+            <button type="submit">Найти</button>
+        </form>
+    </div>
+
+    <!-- Список сообщений -->
+    <div class="messages">
+        <div th:each="message : ${messages}" class="message">
+            <b>ID: <span th:text="${message.id}"></span></b>
+            <p th:text="${message.text}"></p>
+            <div class="tag">Тэг: <span th:text="${message.tag}"></span></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
